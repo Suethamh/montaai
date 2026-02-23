@@ -357,7 +357,7 @@ function CTABanner() {
       ce('p', null, 'Fale com a nossa equipe agora e comece a transformar seu setup. É rápido, fácil e sem compromisso!'),
       ce('div', { className: 'cta-buttons' },
         ce('a', { href: '#contato', className: 'btn btn-white' }, 'Falar com Especialista'),
-        ce('a', { href: 'https://wa.me/SEUNUMERO', target: '_blank', rel: 'noopener noreferrer', className: 'btn btn-whatsapp' },
+        ce('a', { href: 'https://wa.me/5534992279573', target: '_blank', rel: 'noopener noreferrer', className: 'btn btn-whatsapp' },
           wppIcon(), ' WhatsApp'
         )
       )
@@ -440,7 +440,7 @@ function Contato() {
               )
             )
           ),
-          ce('a', { href: 'https://wa.me/SEUNUMERO', target: '_blank', rel: 'noopener noreferrer', className: 'btn btn-whatsapp', style: { width: 'fit-content' } },
+          ce('a', { href: 'https://wa.me/5534992279573', target: '_blank', rel: 'noopener noreferrer', className: 'btn btn-whatsapp', style: { width: 'fit-content' } },
             wppIcon(), ' Chamar no WhatsApp'
           )
         ),
@@ -523,7 +523,7 @@ function Footer() {
         ce('div', { className: 'footer-col' },
           ce('h4', null, 'Contato'),
           ce('a', { href: 'mailto:montaaipc@gmail.com' }, 'montaaipc@gmail.com'),
-          ce('a', { href: 'https://wa.me/SEUNUMERO', target: '_blank', rel: 'noopener noreferrer' }, 'WhatsApp'),
+          ce('a', { href: 'https://wa.me/5534992279573', target: '_blank', rel: 'noopener noreferrer' }, 'WhatsApp'),
           ce('a', { href: 'https://instagram.com/montaai_pc', target: '_blank', rel: 'noopener noreferrer' }, '@montaai_pc')
         )
       ),
@@ -537,7 +537,7 @@ function Footer() {
 
 // Componente WhatsApp Flutuante
 function WhatsAppFloat() {
-  return ce('a', { href: 'https://wa.me/SEUNUMERO', target: '_blank', rel: 'noopener noreferrer', className: 'whatsapp-float', title: 'Fale conosco no WhatsApp' },
+  return ce('a', { href: 'https://wa.me/5534992279573', target: '_blank', rel: 'noopener noreferrer', className: 'whatsapp-float', title: 'Fale conosco no WhatsApp' },
     ce('img', { src: WPP_SVG, alt: 'WhatsApp', style: { width: '32px', height: '32px' } })
   );
 }
