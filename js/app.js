@@ -4,6 +4,14 @@
 
 var ce = React.createElement;
 
+// ---- EmailJS Config ----
+var EMAILJS_KEY = 'zTfuMpzoqfSApaxRZ';
+var EMAILJS_SERVICE = 'service_jsirphl';
+var EMAILJS_TEMPLATE = 'template_oi4u5jl';
+
+// Inicializa EmailJS
+emailjs.init(EMAILJS_KEY);
+
 // SVG do ícone WhatsApp (imagem real)
 var WPP_SVG = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="white" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>');
 
@@ -52,7 +60,7 @@ function Header() {
   );
 }
 
-// Componente Hero
+// Componente Hero com logo redesenhada (hexágono escuro + circuitos + MA)
 function Hero() {
   return ce('section', { className: 'hero', id: 'inicio' },
     ce('div', { className: 'container hero-content' },
@@ -83,25 +91,74 @@ function Hero() {
       ),
       ce('div', { className: 'hero-visual' },
         ce('div', { className: 'hero-hex' },
-          ce('svg', { viewBox: '0 0 400 400', xmlns: 'http://www.w3.org/2000/svg' },
+          ce('svg', { viewBox: '0 0 400 460', xmlns: 'http://www.w3.org/2000/svg' },
             ce('defs', null,
               ce('linearGradient', { id: 'hexGrad', x1: '0%', y1: '0%', x2: '100%', y2: '100%' },
-                ce('stop', { offset: '0%', stopColor: '#7B2FBE' }),
+                ce('stop', { offset: '0%', stopColor: '#2A2A3D' }),
                 ce('stop', { offset: '100%', stopColor: '#1A1A2E' })
+              ),
+              ce('filter', { id: 'glow' },
+                ce('feGaussianBlur', { stdDeviation: '3', result: 'coloredBlur' }),
+                ce('feMerge', null,
+                  ce('feMergeNode', { 'in': 'coloredBlur' }),
+                  ce('feMergeNode', { 'in': 'SourceGraphic' })
+                )
               )
             ),
-            ce('polygon', { points: '200,30 350,110 350,270 200,350 50,270 50,110', fill: 'url(#hexGrad)', stroke: '#7B2FBE', strokeWidth: '2' }),
-            ce('circle', { cx: '150', cy: '140', r: '3', fill: '#9B59D0', opacity: '0.8' }),
-            ce('circle', { cx: '250', cy: '140', r: '3', fill: '#9B59D0', opacity: '0.8' }),
-            ce('circle', { cx: '200', cy: '260', r: '3', fill: '#9B59D0', opacity: '0.8' }),
-            ce('line', { x1: '150', y1: '140', x2: '200', y2: '140', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.5' }),
-            ce('line', { x1: '200', y1: '140', x2: '250', y2: '140', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.5' }),
-            ce('line', { x1: '200', y1: '140', x2: '200', y2: '260', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.5' }),
-            ce('circle', { cx: '170', cy: '200', r: '2', fill: '#9B59D0', opacity: '0.6' }),
-            ce('circle', { cx: '230', cy: '200', r: '2', fill: '#9B59D0', opacity: '0.6' }),
-            ce('line', { x1: '170', y1: '200', x2: '200', y2: '200', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.4' }),
-            ce('line', { x1: '200', y1: '200', x2: '230', y2: '200', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.4' }),
-            ce('text', { x: '200', y: '210', textAnchor: 'middle', fill: 'white', fontSize: '72', fontWeight: '800', fontFamily: 'Inter, sans-serif' }, 'MA')
+
+            // Hexágono principal (escuro como na logo)
+            ce('polygon', { points: '200,30 350,117 350,290 200,377 50,290 50,117', fill: 'url(#hexGrad)', stroke: '#3A3A50', strokeWidth: '2' }),
+
+            // --- Circuitos superiores (canto superior direito) ---
+            // Trilha horizontal superior
+            ce('line', { x1: '220', y1: '70', x2: '310', y2: '70', stroke: '#9B59D0', strokeWidth: '1.5', opacity: '0.6' }),
+            ce('line', { x1: '310', y1: '70', x2: '310', y2: '100', stroke: '#9B59D0', strokeWidth: '1.5', opacity: '0.6' }),
+            // Nós (bolinhas nos cruzamentos)
+            ce('circle', { cx: '220', cy: '70', r: '3', fill: '#9B59D0', opacity: '0.9' }),
+            ce('circle', { cx: '270', cy: '70', r: '2.5', fill: '#9B59D0', opacity: '0.7' }),
+            ce('circle', { cx: '310', cy: '70', r: '3', fill: '#9B59D0', opacity: '0.9' }),
+            ce('circle', { cx: '310', cy: '100', r: '2.5', fill: '#9B59D0', opacity: '0.7' }),
+
+            // Trilha diagonal superior
+            ce('line', { x1: '250', y1: '85', x2: '290', y2: '85', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.4' }),
+            ce('line', { x1: '290', y1: '85', x2: '320', y2: '115', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.4' }),
+            ce('circle', { cx: '250', cy: '85', r: '2', fill: '#9B59D0', opacity: '0.6' }),
+            ce('circle', { cx: '290', cy: '85', r: '2', fill: '#9B59D0', opacity: '0.6' }),
+
+            // Trilha superior mais longa
+            ce('line', { x1: '200', y1: '55', x2: '280', y2: '55', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.35' }),
+            ce('line', { x1: '280', y1: '55', x2: '280', y2: '70', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.35' }),
+            ce('circle', { cx: '200', cy: '55', r: '2', fill: '#9B59D0', opacity: '0.5' }),
+            ce('circle', { cx: '240', cy: '55', r: '1.5', fill: '#9B59D0', opacity: '0.4' }),
+            ce('circle', { cx: '280', cy: '55', r: '2', fill: '#9B59D0', opacity: '0.5' }),
+
+            // Trilha vertical direita
+            ce('line', { x1: '330', y1: '130', x2: '330', y2: '170', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.3' }),
+            ce('circle', { cx: '330', cy: '130', r: '2', fill: '#9B59D0', opacity: '0.5' }),
+            ce('circle', { cx: '330', cy: '170', r: '2', fill: '#9B59D0', opacity: '0.4' }),
+
+            // Trilha com ramificação
+            ce('line', { x1: '270', y1: '100', x2: '310', y2: '100', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.35' }),
+            ce('line', { x1: '270', y1: '100', x2: '270', y2: '120', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.3' }),
+            ce('circle', { cx: '270', cy: '100', r: '2', fill: '#9B59D0', opacity: '0.5' }),
+            ce('circle', { cx: '270', cy: '120', r: '1.5', fill: '#9B59D0', opacity: '0.4' }),
+
+            // --- Texto MA estilizado ---
+            // M
+            ce('path', {
+              d: 'M 130 260 L 130 170 L 165 220 L 200 170 L 200 260',
+              fill: 'none', stroke: 'white', strokeWidth: '8', strokeLinecap: 'round', strokeLinejoin: 'round'
+            }),
+            // A
+            ce('path', {
+              d: 'M 220 260 L 250 170 L 280 260',
+              fill: 'none', stroke: 'white', strokeWidth: '8', strokeLinecap: 'round', strokeLinejoin: 'round'
+            }),
+            // A barra horizontal
+            ce('line', { x1: '232', y1: '230', x2: '268', y2: '230', stroke: 'white', strokeWidth: '6', strokeLinecap: 'round' }),
+
+            // --- Texto "MONTA AÍ!" abaixo ---
+            ce('text', { x: '200', y: '420', textAnchor: 'middle', fill: 'white', fontSize: '36', fontWeight: '800', fontFamily: 'Inter, sans-serif', letterSpacing: '3' }, 'MONTA AÍ!')
           )
         )
       )
@@ -252,7 +309,7 @@ function Depoimentos() {
   );
 }
 
-// Componente FAQ (corrigido - não desaparece mais)
+// Componente FAQ
 function FAQ() {
   var _s = React.useState(null);
   var active = _s[0]; var setActive = _s[1];
@@ -292,7 +349,7 @@ function FAQ() {
   );
 }
 
-// Componente CTA Banner (com ícone WhatsApp real)
+// Componente CTA Banner
 function CTABanner() {
   return ce('section', { className: 'cta-banner' },
     ce('div', { className: 'container' },
@@ -308,7 +365,7 @@ function CTABanner() {
   );
 }
 
-// Componente Contato (sem redirecionamento mailto - mostra confirmação na página)
+// Componente Contato com EmailJS
 function Contato() {
   var _s = React.useState(null);
   var status = _s[0]; var setStatus = _s[1];
@@ -318,32 +375,32 @@ function Contato() {
   function handleSubmit(ev) {
     ev.preventDefault();
     setSending(true);
+    setStatus(null);
 
     var form = ev.target;
     var data = new FormData(form);
 
-    var nome = data.get('nome');
-    var email = data.get('email');
-    var telefone = data.get('telefone');
-    var plano = data.get('plano');
-    var mensagem = data.get('mensagem');
+    var templateParams = {
+      name: data.get('nome'),
+      email: data.get('email'),
+      phone: data.get('telefone'),
+      plan: data.get('plano'),
+      message: data.get('mensagem')
+    };
 
-    // Usa EmailJS ou similar em produção. Por enquanto, abre mailto em nova aba sem redirecionar
-    var subject = encodeURIComponent('[Monta Aí] Nova consulta - ' + nome);
-    var body = encodeURIComponent(
-      'Nome: ' + nome + '\nE-mail: ' + email + '\nTelefone: ' + telefone + '\nPlano de interesse: ' + plano + '\n\nMensagem:\n' + mensagem
-    );
-
-    // Abre em nova aba ao invés de redirecionar a página atual
-    var mailLink = document.createElement('a');
-    mailLink.href = 'mailto:montaaipc@gmail.com?subject=' + subject + '&body=' + body;
-    mailLink.target = '_blank';
-    mailLink.click();
-
-    setSending(false);
-    setStatus('success');
-    form.reset();
-    setTimeout(function() { setStatus(null); }, 6000);
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
+      .then(function() {
+        setSending(false);
+        setStatus('success');
+        form.reset();
+        setTimeout(function() { setStatus(null); }, 6000);
+      })
+      .catch(function(err) {
+        console.error('EmailJS Error:', err);
+        setSending(false);
+        setStatus('error');
+        setTimeout(function() { setStatus(null); }, 6000);
+      });
   }
 
   return ce('section', { className: 'section contact', id: 'contato' },
@@ -422,7 +479,8 @@ function Contato() {
           ce('button', { type: 'submit', className: 'btn btn-primary', style: { width: '100%' }, disabled: sending },
             sending ? 'Enviando...' : 'Enviar Mensagem'
           ),
-          status === 'success' ? ce('div', { className: 'form-status success' }, '✓ Mensagem enviada com sucesso! Entraremos em contato em breve.') : null
+          status === 'success' ? ce('div', { className: 'form-status success' }, '✓ Mensagem enviada com sucesso! Entraremos em contato em breve.') : null,
+          status === 'error' ? ce('div', { className: 'form-status error' }, '✕ Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.') : null
         )
       )
     )
@@ -477,7 +535,7 @@ function Footer() {
   );
 }
 
-// Componente WhatsApp Flutuante (com ícone SVG real)
+// Componente WhatsApp Flutuante
 function WhatsAppFloat() {
   return ce('a', { href: 'https://wa.me/SEUNUMERO', target: '_blank', rel: 'noopener noreferrer', className: 'whatsapp-float', title: 'Fale conosco no WhatsApp' },
     ce('img', { src: WPP_SVG, alt: 'WhatsApp', style: { width: '32px', height: '32px' } })
