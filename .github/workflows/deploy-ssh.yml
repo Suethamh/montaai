@@ -2,7 +2,7 @@ name: Deploy (SSH + rsync) HostGator
 
 on:
   push:
-    branches: ["main"] # troque se for master
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -12,40 +12,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup SSH (agent + config)
+      - name: Write SSH key + known_hosts
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-          # grava a chave
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          # grava a chave privada (mantém quebras de linha corretamente)
+          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-          # known_hosts (sem prompt)
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          # evita prompt de fingerprint
+          ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
-          # força usar SOMENTE essa chave
-          cat > ~/.ssh/config <<EOF
-          Host hostgator
-            HostName ${{ secrets.SSH_HOST }}
-            User ${{ secrets.SSH_USER }}
-            Port ${{ secrets.SSH_PORT }}
-            IdentityFile ~/.ssh/id_ed25519
-            IdentitiesOnly yes
-          EOF
-          chmod 600 ~/.ssh/config
-
-          # inicia agent e adiciona a chave
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_ed25519
-
-          # debug rápido (mostra quantas chaves o agent tem)
-          ssh-add -l
+      - name: Test SSH
+        run: |
+          ssh -o BatchMode=yes \
+              -i ~/.ssh/id_ed25519 \
+              -o IdentitiesOnly=yes \
+              -o PreferredAuthentications=publickey \
+              -o PubkeyAuthentication=yes \
+              -p ${{ secrets.SSH_PORT }} \
+              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+              "echo OK && whoami && pwd"
 
       - name: Deploy via rsync
         run: |
           rsync -az --delete \
             --exclude ".git/" \
             --exclude ".github/" \
-            -e "ssh hostgator -o IdentitiesOnly=yes" \
-            ./ hostgator:${{ secrets.DEPLOY_PATH }}
+            -e "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -p ${{ secrets.SSH_PORT }}" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
