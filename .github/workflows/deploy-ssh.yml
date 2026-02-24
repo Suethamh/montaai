@@ -13,15 +13,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Write SSH key + known_hosts
+        shell: bash
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
+          cat > ~/.ssh/id_ed25519 <<'KEY'${{ secrets.SSH_PRIVATE_KEY }}KEY
 
-          # grava a chave privada (mantém quebras de linha corretamente)
-          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-          # evita prompt de fingerprint
           ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
