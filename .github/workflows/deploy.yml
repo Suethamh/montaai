@@ -1,24 +1,35 @@
-name: Deploy para HostGator
+name: Deploy HostGator (FTP)
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  ftp-deploy:
-    name: Enviar arquivos via FTP
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Baixar código
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      # Se tiver build (React/Vite/Next/etc), habilite aqui:
+      # - name: Install deps
+      #   run: npm ci
+      # - name: Build
+      #   run: npm run build
+
+      - name: FTP Deploy to HostGator
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          server-dir: ./
+          protocol: ftp
+          local-dir: ./               # ou ./dist/ se você fizer build e o resultado ficar em dist
+          server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/node_modules/**
+            **/*.map
+            README.md
