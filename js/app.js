@@ -198,19 +198,19 @@ function ComoFunciona() {
 function Planos() {
   var plans = [
     {
-      icon: '🔍', name: 'Consultoria de Peças', price: 'R$ 79', period: '/consulta',
+      icon: '🔍', name: 'Consultoria de Peças', price: 'R$ 79',
       desc: 'Ideal para quem já sabe montar mas precisa de ajuda para escolher as peças certas.',
       features: ['Análise do seu orçamento', 'Lista completa de peças compatíveis', 'Comparativo de custo-benefício', 'Indicação das melhores lojas', 'Suporte por 7 dias via WhatsApp'],
       featured: false
     },
     {
-      icon: '🔧', name: 'Ajuda na Montagem', price: 'R$ 149', period: '/sessão',
+      icon: '🔧', name: 'Ajuda na Montagem', price: 'R$ 149',
       desc: 'Consultoria + acompanhamento ao vivo da montagem do seu PC, passo a passo.',
       features: ['Tudo do plano Consultoria', 'Videochamada durante a montagem', 'Verificação de compatibilidade', 'Teste de componentes ao vivo', 'Ajuda com BIOS e drivers', 'Suporte por 15 dias via WhatsApp'],
       featured: true
     },
     {
-      icon: '🚀', name: 'Monta Aí Completo', price: 'R$ 199', period: '/projeto',
+      icon: '🚀', name: 'Monta Aí Completo', price: 'R$ 199',
       desc: 'Serviço completo: a gente escolhe, compra e monta o PC inteiro pra você.',
       features: ['Tudo dos planos anteriores', 'Compra assistida das peças', 'Montagem completa do PC', 'Instalação do sistema operacional', 'Benchmark e testes de stress', 'Garantia de 30 dias no serviço'],
       featured: false
@@ -229,7 +229,7 @@ function Planos() {
           return ce('div', { className: 'plan-card fade-in ' + (plan.featured ? 'featured' : ''), key: i, style: { transitionDelay: (i * 0.1) + 's' } },
             ce('div', { className: 'plan-icon' }, plan.icon),
             ce('h3', null, plan.name),
-            ce('div', { className: 'plan-price' }, plan.price, ' ', ce('small', null, plan.period)),
+            ce('div', { className: 'plan-price' }, plan.price),
             ce('p', { className: 'plan-desc' }, plan.desc),
             ce('ul', { className: 'plan-features' },
               plan.features.map(function(f, j) { return ce('li', { key: j }, f); })
