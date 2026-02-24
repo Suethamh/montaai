@@ -12,19 +12,40 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup SSH
+      - name: Setup SSH (agent + config)
         run: |
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          # grava a chave
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-          # Evita prompt do "authenticity of host"
+          # known_hosts (sem prompt)
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+          # força usar SOMENTE essa chave
+          cat > ~/.ssh/config <<EOF
+          Host hostgator
+            HostName ${{ secrets.SSH_HOST }}
+            User ${{ secrets.SSH_USER }}
+            Port ${{ secrets.SSH_PORT }}
+            IdentityFile ~/.ssh/id_ed25519
+            IdentitiesOnly yes
+          EOF
+          chmod 600 ~/.ssh/config
+
+          # inicia agent e adiciona a chave
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_ed25519
+
+          # debug rápido (mostra quantas chaves o agent tem)
+          ssh-add -l
 
       - name: Deploy via rsync
         run: |
           rsync -az --delete \
             --exclude ".git/" \
             --exclude ".github/" \
-            -e "ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes" \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
+            -e "ssh hostgator -o IdentitiesOnly=yes" \
+            ./ hostgator:${{ secrets.DEPLOY_PATH }}
