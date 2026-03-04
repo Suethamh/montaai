@@ -45,7 +45,7 @@ function Header() {
   return ce('header', { className: 'header ' + (scrolled ? 'scrolled' : '') },
     ce('nav', { className: 'nav' },
       ce('a', { href: '#inicio', className: 'nav-logo' },
-        ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí', className: 'nav-logo-img' })
+        ce('img', { src: 'img/logo.png', alt: 'Monta Aí', className: 'nav-logo-img' })
       ),
       ce('div', { className: 'nav-links ' + (menuOpen ? 'active' : '') },
         links.map(function(link) {
@@ -91,7 +91,7 @@ function Hero() {
       ),
       ce('div', { className: 'hero-visual' },
         ce('div', { className: 'hero-hex' },
-          ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí Logo', className: 'hero-logo-img' }),
+          ce('img', { src: 'img/logo.png', alt: 'Monta Aí Logo', className: 'hero-logo-img' }),
           ce('h2', { className: 'hero-logo-text' }, 'MONTA AÍ!')
         )
       )
@@ -427,7 +427,7 @@ function Footer() {
       ce('div', { className: 'footer-grid' },
         ce('div', { className: 'footer-brand' },
           ce('div', { className: 'footer-logo-wrap' },
-            ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí', className: 'footer-logo-img' })
+            ce('img', { src: 'img/logo.png', alt: 'Monta Aí', className: 'footer-logo-img' })
           ),
           ce('p', null, 'Consultoria especializada para você montar o PC perfeito, sem dor de cabeça e com economia real.'),
           ce('div', { className: 'footer-social' },
