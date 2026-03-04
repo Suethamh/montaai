@@ -45,7 +45,10 @@ function Header() {
   return ce('header', { className: 'header ' + (scrolled ? 'scrolled' : '') },
     ce('nav', { className: 'nav' },
       ce('a', { href: '#inicio', className: 'nav-logo' },
-        ce('img', { src: 'img/logo.png', alt: 'Monta Aí', className: 'nav-logo-img' })
+        ce('img', { src: 'img/logo.png', alt: 'Monta Aí', className: 'nav-logo-img' }),
+        ce('span', { className: 'nav-logo-text' },
+          ce('span', null, 'Monta'), ' Aí!'
+        )
       ),
       ce('div', { className: 'nav-links ' + (menuOpen ? 'active' : '') },
         links.map(function(link) {
@@ -362,7 +365,7 @@ function Contato() {
               ),
               ce('div', { className: 'contact-method-text' },
                 ce('strong', null, 'WhatsApp'),
-                ce('span', null, 'Clique no botão verde para falar conosco')
+                ce('span', null, '(34) 9 7974-0002')
               )
             ),
             ce('div', { className: 'contact-method' },
@@ -456,7 +459,7 @@ function Footer() {
         ce('div', { className: 'footer-col' },
           ce('h4', null, 'Contato'),
           ce('a', { href: 'mailto:montaaipc@gmail.com' }, 'montaaipc@gmail.com'),
-          ce('a', { href: 'https://wa.me/553497974002', target: '_blank', rel: 'noopener noreferrer' }, 'WhatsApp'),
+          ce('a', { href: 'https://wa.me/553497974002', target: '_blank', rel: 'noopener noreferrer' }, '(34) 9 7974-0002'),
           ce('a', { href: 'https://instagram.com/montaai_pc', target: '_blank', rel: 'noopener noreferrer' }, '@montaai_pc')
         )
       ),

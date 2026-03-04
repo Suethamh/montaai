@@ -91,7 +91,13 @@ img { max-width: 100%; display: block; }
   color: var(--white);
 }
 
-.nav-logo span {
+.nav-logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+}
+
+.nav-logo-text span {
   background: var(--gradient-btn);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -99,7 +105,7 @@ img { max-width: 100%; display: block; }
 }
 
 .nav-logo-img {
-  height: 45px;
+  height: 40px;
   width: auto;
   object-fit: contain;
   border-radius: 6px;
