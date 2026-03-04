@@ -2,7 +2,7 @@ name: Deploy (SSH + rsync) HostGator
 
 on:
   push:
-    branches: ["main"] # troque se for master
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -12,19 +12,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup SSH
+      - name: Write SSH key + known_hosts
+        shell: bash
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 700 ~/.ssh
+          cat > ~/.ssh/id_ed25519 <<'KEY'${{ secrets.SSH_PRIVATE_KEY }}KEY
+
           chmod 600 ~/.ssh/id_ed25519
 
-          # Evita prompt do "authenticity of host"
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Test SSH
+        run: |
+          ssh -o BatchMode=yes \
+              -i ~/.ssh/id_ed25519 \
+              -o IdentitiesOnly=yes \
+              -o PreferredAuthentications=publickey \
+              -o PubkeyAuthentication=yes \
+              -p ${{ secrets.SSH_PORT }} \
+              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+              "echo OK && whoami && pwd"
 
       - name: Deploy via rsync
         run: |
           rsync -az --delete \
             --exclude ".git/" \
             --exclude ".github/" \
-            -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            -e "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -p ${{ secrets.SSH_PORT }}" \
             ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
