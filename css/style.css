@@ -1038,6 +1038,16 @@ img { max-width: 100%; display: block; }
   padding-left: 0;
 }
 
+.footer-wpp-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(0.7);
+}
+
+.footer-social a:hover .footer-wpp-icon {
+  filter: brightness(0) invert(1);
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(123, 47, 190, 0.1);
   padding-top: 24px;

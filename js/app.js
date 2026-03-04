@@ -440,6 +440,9 @@ function Footer() {
                 ce('circle', { cx: '12', cy: '12', r: '5' }),
                 ce('line', { x1: '17.5', y1: '6.5', x2: '17.51', y2: '6.5' })
               )
+            ),
+            ce('a', { href: 'https://wa.me/553497974002', target: '_blank', rel: 'noopener noreferrer', 'aria-label': 'WhatsApp' },
+              ce('img', { src: WPP_SVG, alt: 'WhatsApp', className: 'footer-wpp-icon' })
             )
           )
         ),
