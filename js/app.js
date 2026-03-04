@@ -91,7 +91,8 @@ function Hero() {
       ),
       ce('div', { className: 'hero-visual' },
         ce('div', { className: 'hero-hex' },
-          ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí Logo', className: 'hero-logo-img' })
+          ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí Logo', className: 'hero-logo-img' }),
+          ce('h2', { className: 'hero-logo-text' }, 'MONTA AÍ!')
         )
       )
     )
