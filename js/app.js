@@ -45,7 +45,7 @@ function Header() {
   return ce('header', { className: 'header ' + (scrolled ? 'scrolled' : '') },
     ce('nav', { className: 'nav' },
       ce('a', { href: '#inicio', className: 'nav-logo' },
-        ce('span', null, 'Monta'), ' Aí!'
+        ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí', className: 'nav-logo-img' })
       ),
       ce('div', { className: 'nav-links ' + (menuOpen ? 'active' : '') },
         links.map(function(link) {
@@ -91,75 +91,7 @@ function Hero() {
       ),
       ce('div', { className: 'hero-visual' },
         ce('div', { className: 'hero-hex' },
-          ce('svg', { viewBox: '0 0 400 460', xmlns: 'http://www.w3.org/2000/svg' },
-            ce('defs', null,
-              ce('linearGradient', { id: 'hexGrad', x1: '0%', y1: '0%', x2: '100%', y2: '100%' },
-                ce('stop', { offset: '0%', stopColor: '#2A2A3D' }),
-                ce('stop', { offset: '100%', stopColor: '#1A1A2E' })
-              ),
-              ce('filter', { id: 'glow' },
-                ce('feGaussianBlur', { stdDeviation: '3', result: 'coloredBlur' }),
-                ce('feMerge', null,
-                  ce('feMergeNode', { 'in': 'coloredBlur' }),
-                  ce('feMergeNode', { 'in': 'SourceGraphic' })
-                )
-              )
-            ),
-
-            // Hexágono principal (escuro como na logo)
-            ce('polygon', { points: '200,30 350,117 350,290 200,377 50,290 50,117', fill: 'url(#hexGrad)', stroke: '#3A3A50', strokeWidth: '2' }),
-
-            // --- Circuitos superiores (canto superior direito) ---
-            // Trilha horizontal superior
-            ce('line', { x1: '220', y1: '70', x2: '310', y2: '70', stroke: '#9B59D0', strokeWidth: '1.5', opacity: '0.6' }),
-            ce('line', { x1: '310', y1: '70', x2: '310', y2: '100', stroke: '#9B59D0', strokeWidth: '1.5', opacity: '0.6' }),
-            // Nós (bolinhas nos cruzamentos)
-            ce('circle', { cx: '220', cy: '70', r: '3', fill: '#9B59D0', opacity: '0.9' }),
-            ce('circle', { cx: '270', cy: '70', r: '2.5', fill: '#9B59D0', opacity: '0.7' }),
-            ce('circle', { cx: '310', cy: '70', r: '3', fill: '#9B59D0', opacity: '0.9' }),
-            ce('circle', { cx: '310', cy: '100', r: '2.5', fill: '#9B59D0', opacity: '0.7' }),
-
-            // Trilha diagonal superior
-            ce('line', { x1: '250', y1: '85', x2: '290', y2: '85', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.4' }),
-            ce('line', { x1: '290', y1: '85', x2: '320', y2: '115', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.4' }),
-            ce('circle', { cx: '250', cy: '85', r: '2', fill: '#9B59D0', opacity: '0.6' }),
-            ce('circle', { cx: '290', cy: '85', r: '2', fill: '#9B59D0', opacity: '0.6' }),
-
-            // Trilha superior mais longa
-            ce('line', { x1: '200', y1: '55', x2: '280', y2: '55', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.35' }),
-            ce('line', { x1: '280', y1: '55', x2: '280', y2: '70', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.35' }),
-            ce('circle', { cx: '200', cy: '55', r: '2', fill: '#9B59D0', opacity: '0.5' }),
-            ce('circle', { cx: '240', cy: '55', r: '1.5', fill: '#9B59D0', opacity: '0.4' }),
-            ce('circle', { cx: '280', cy: '55', r: '2', fill: '#9B59D0', opacity: '0.5' }),
-
-            // Trilha vertical direita
-            ce('line', { x1: '330', y1: '130', x2: '330', y2: '170', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.3' }),
-            ce('circle', { cx: '330', cy: '130', r: '2', fill: '#9B59D0', opacity: '0.5' }),
-            ce('circle', { cx: '330', cy: '170', r: '2', fill: '#9B59D0', opacity: '0.4' }),
-
-            // Trilha com ramificação
-            ce('line', { x1: '270', y1: '100', x2: '310', y2: '100', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.35' }),
-            ce('line', { x1: '270', y1: '100', x2: '270', y2: '120', stroke: '#9B59D0', strokeWidth: '1', opacity: '0.3' }),
-            ce('circle', { cx: '270', cy: '100', r: '2', fill: '#9B59D0', opacity: '0.5' }),
-            ce('circle', { cx: '270', cy: '120', r: '1.5', fill: '#9B59D0', opacity: '0.4' }),
-
-            // --- Texto MA estilizado ---
-            // M
-            ce('path', {
-              d: 'M 130 260 L 130 170 L 165 220 L 200 170 L 200 260',
-              fill: 'none', stroke: 'white', strokeWidth: '8', strokeLinecap: 'round', strokeLinejoin: 'round'
-            }),
-            // A
-            ce('path', {
-              d: 'M 220 260 L 250 170 L 280 260',
-              fill: 'none', stroke: 'white', strokeWidth: '8', strokeLinecap: 'round', strokeLinejoin: 'round'
-            }),
-            // A barra horizontal
-            ce('line', { x1: '232', y1: '230', x2: '268', y2: '230', stroke: 'white', strokeWidth: '6', strokeLinecap: 'round' }),
-
-            // --- Texto "MONTA AÍ!" abaixo ---
-            ce('text', { x: '200', y: '420', textAnchor: 'middle', fill: 'white', fontSize: '36', fontWeight: '800', fontFamily: 'Inter, sans-serif', letterSpacing: '3' }, 'MONTA AÍ!')
-          )
+          ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí Logo', className: 'hero-logo-img' })
         )
       )
     )
@@ -493,8 +425,8 @@ function Footer() {
     ce('div', { className: 'container' },
       ce('div', { className: 'footer-grid' },
         ce('div', { className: 'footer-brand' },
-          ce('div', { className: 'nav-logo', style: { fontSize: '1.5rem' } },
-            ce('span', null, 'Monta'), ' Aí!'
+          ce('div', { className: 'footer-logo-wrap' },
+            ce('img', { src: 'img/logo.jpeg', alt: 'Monta Aí', className: 'footer-logo-img' })
           ),
           ce('p', null, 'Consultoria especializada para você montar o PC perfeito, sem dor de cabeça e com economia real.'),
           ce('div', { className: 'footer-social' },
