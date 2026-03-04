@@ -365,7 +365,7 @@ function Contato() {
               ),
               ce('div', { className: 'contact-method-text' },
                 ce('strong', null, 'WhatsApp'),
-                ce('span', null, '(34) 9 7974-0002')
+                ce('span', null, '(34) 9797-4002')
               )
             ),
             ce('div', { className: 'contact-method' },
@@ -459,7 +459,7 @@ function Footer() {
         ce('div', { className: 'footer-col' },
           ce('h4', null, 'Contato'),
           ce('a', { href: 'mailto:montaaipc@gmail.com' }, 'montaaipc@gmail.com'),
-          ce('a', { href: 'https://wa.me/553497974002', target: '_blank', rel: 'noopener noreferrer' }, '(34) 9 7974-0002'),
+          ce('a', { href: 'https://wa.me/553497974002', target: '_blank', rel: 'noopener noreferrer' }, '(34) 9797-4002'),
           ce('a', { href: 'https://instagram.com/montaai_pc', target: '_blank', rel: 'noopener noreferrer' }, '@montaai_pc')
         )
       ),
